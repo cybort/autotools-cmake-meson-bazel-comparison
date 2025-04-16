@@ -18,8 +18,8 @@
 | docker-ce (2013) | ceph (2006) | git (2005) | i3 (2009) | rabbitmq-server (2007) |
 | druid (2012) | chapel (2009) | linux (1991) | matplotlib (2003) | sdk (N/A) |
 | dua-cli (2019) | cmark-gfm (2017) | llvm-project (2003) | meson (2013) | tensorflow (2015) |
-| dwm (2006) | cpython (1991) | lxpanel (2006) | mongo (2009) | |
-| elixir (2011) | curl (1997) | lxterminal (2008) | mpv (2013) | |
+| dwm (2006) | cpython (1991) | lxpanel (2006) | mongo (2009) | gerrit(2015) |
+| elixir (2011) | curl (1997) | lxterminal (2008) | mpv (2013) | Envoy(2016) |
 | fd (2017) | fish-shell (2005) | mate-panel (2011) | mutter (2001) | |
 | flink (2014) | gcc (1987) | mesos (2009) | nautilus (1999) | |
 | frege (2011) | gecko-dev (1998) | mongo (2009) | pandas (2008) | |
@@ -35,10 +35,10 @@
 | julia (2012) | lldb (2010) | rufus (2011) | vlc (2001) | |
 | kivy (2011) | llvm-project (2003) | sqlite (2000) | xfdesktop (2002) | |
 | lazydocker (2019) | meson (2013) | storm (2011) | xserver (1984) | |
-| lazygit (2018) | mesos (2009) | tarantool (2010) | | |
-| lfe (2008) | mongo (2009) | tesseract (2006) | | |
-| minio (2014) | neovim (2014) | the_silver_searcher (2011) | | |
-| navi (2019) | ninja (2010) | thrift (2007) | | |
+| lazygit (2018) | mesos (2009) | tarantool (2010) | qemu | |
+| lfe (2008) | mongo (2009) | tesseract (2006) | flatpak | |
+| minio (2014) | neovim (2014) | the_silver_searcher (2011) | wayland | |
+| navi (2019) | ninja (2010) | thrift (2007) | x.Org | |
 | neofetch (2015) | obs-studio (2012) | thunar (2004) | | |
 | newsboat (2017) | opencv (2000) | vim (1991) | | |
 | nnn (2016) | orc (2008) | vlc (2001) | | |
