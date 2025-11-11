@@ -102,7 +102,10 @@ CC = gcc
 CFLAGS = -Wall -O2
 ```
 Windows (MSVC): 
-```makefile CC = cl CFLAGS = /W3 /O2 ```
+```makefile 
+CC = cl
+CFLAGS = /W3 /O2
+```
 
 
 ## Perfomance
@@ -148,11 +151,11 @@ Note: Even with the most advanced build system, poor configuration can result in
 ## Build Systems Languages
 | Task | Autotools | CMake | Meson | Bazel |
 |------|-----------|-------|-------|-------|
-| 1. Simple compilation and linking | configure.ac:<br>```AC_INIT([myapp], [1.0])<br>AM_INIT_AUTOMAKE<br>AC_PROG_CC<br>AC_CONFIG_FILES([Makefile])<br>AC_OUTPUT```<br><br>Makefile.am:<br>```bin_PROGRAMS = myapp<br>myapp_SOURCES = main.c``` | ```cmake_minimum_required(VERSION 3.10)<br>project(myapp)<br>add_executable(myapp main.c)``` | ```project('myapp', 'c')<br>executable('myapp', 'main.c')``` | ```cc_binary(<br>    name = "myapp",<br>    srcs = ["main.c"],<br>)``` |
-| 2. Adding an external library (e.g., libxml2) | configure.ac:<br>```PKG_CHECK_MODULES([XML], [libxml-2.0])```<br><br>Makefile.am:<br>```myapp_CFLAGS = $(XML_CFLAGS)<br>myapp_LDADD = $(XML_LIBS)``` | ```find_package(LibXml2 REQUIRED)<br>target_link_libraries(myapp LibXml2::LibXml2)``` | ```xml_dep = dependency('libxml-2.0')<br>executable('myapp', 'main.c', dependencies: xml_dep)``` | ```cc_binary(<br>    name = "myapp",<br>    srcs = ["main.c"],<br>    deps = ["@libxml2//:libxml2"],<br>)``` |
+| 1. Simple compilation and linking | configure.ac:<br>```AC_INIT([myapp], [1.0])```<br>```AM_INIT_AUTOMAKE```<br>```AC_PROG_CC```<br>```AC_CONFIG_FILES([Makefile])```<br>```AC_OUTPUT```<br><br>```Makefile.am:```<br>```bin_PROGRAMS = myapp```<br>```myapp_SOURCES = main.c``` | ```cmake_minimum_required(VERSION 3.10)```<br>```project(myapp)```<br>```add_executable(myapp main.c)``` | ```project('myapp', 'c')```<br>```executable('myapp', 'main.c')``` | ```cc_binary(```<br>```    name = "myapp",```<br>```    srcs = ["main.c"],```<br>```)``` |
+| 2. Adding an external library (e.g., libxml2) | configure.ac:<br>```PKG_CHECK_MODULES([XML], [libxml-2.0])```<br><br>```Makefile.am:```<br>```myapp_CFLAGS = $(XML_CFLAGS)```<br>```myapp_LDADD = $(XML_LIBS)``` | ```find_package(LibXml2 REQUIRED)```<br>```target_link_libraries(myapp LibXml2::LibXml2)``` | ```xml_dep = dependency('libxml-2.0')```<br>```executable('myapp', 'main.c', dependencies: xml_dep)``` | ```cc_binary(```<br>```    name = "myapp",```<br>```    srcs = ["main.c"],```<br>```    deps = ["@libxml2//:libxml2"],```<br>```)``` |
 | 3. Setting installation directory | configure.ac:<br>```AC_PREFIX_DEFAULT(/usr/local)``` | ```set(CMAKE_INSTALL_PREFIX /usr/local)``` | ```project('myapp', 'c', default_options: ['prefix=/usr/local'])``` | No direct equivalent. Custom installation rules needed. |
-| 4. Adding a custom compiler | configure.ac:<br>```AC_PROG_CC([clang gcc])``` | ```set(CMAKE_C_COMPILER clang)``` | ```project('myapp', 'c', default_options: ['c_compiler=clang'])``` | In WORKSPACE file:<br>```load("@bazel_tools//tools/cpp:cc_configure.bzl", "cc_configure")<br>cc_configure(cc_path = "/path/to/clang")``` |
-| 5. Creating and running tests | Makefile.am:<br>```TESTS = test1 test2<br>check_PROGRAMS = test1 test2<br>test1_SOURCES = test1.c<br>test2_SOURCES = test2.c``` | ```enable_testing()<br>add_executable(test1 test1.c)<br>add_executable(test2 test2.c)<br>add_test(NAME Test1 COMMAND test1)<br>add_test(NAME Test2 COMMAND test2)``` | ```test('test1', executable('test1', 'test1.c'))<br>test('test2', executable('test2', 'test2.c'))``` | ```cc_test(<br>    name = "test1",<br>    srcs = ["test1.c"],<br>)<br>cc_test(<br>    name = "test2",<br>    srcs = ["test2.c"],<br>)``` |
+| 4. Adding a custom compiler | configure.ac:<br>```AC_PROG_CC([clang gcc])``` | ```set(CMAKE_C_COMPILER clang)``` | ```project('myapp', 'c', default_options: ['c_compiler=clang'])``` | In WORKSPACE file:<br>```load("@bazel_tools//tools/cpp:cc_configure.bzl", "cc_configure")```<br>```cc_configure(cc_path = "/path/to/clang")``` |
+| 5. Creating and running tests | Makefile.am:<br>```TESTS = test1 test2```<br>```check_PROGRAMS = test1 test2```<br>```test1_SOURCES = test1.c```<br>```test2_SOURCES = test2.c``` | ```enable_testing()```<br>```add_executable(test1 test1.c)```<br>```add_executable(test2 test2.c)```<br>```add_test(NAME Test1 COMMAND test1)```<br>```add_test(NAME Test2 COMMAND test2)``` | ```test('test1', executable('test1', 'test1.c'))```<br>```test('test2', executable('test2', 'test2.c'))``` | ```cc_test(```<br>```    name = "test1",```<br>```    srcs = ["test1.c"],```<br>```)```<br>```cc_test(```<br>```    name = "test2",```<br>```    srcs = ["test2.c"],```<br>```)``` |
 
 
 
@@ -386,7 +389,7 @@ cc_test(
 ## Turing Completeness of Build System Configuration Languages
 | Build System | Turing Complete | Proof/Explanation |
 |--------------|-----------------|-------------------|
-| Autotools    | Partially       | Autotools uses M4 (not Turing-complete) and shell scripts (Turing-complete). M4 itself lacks unbounded loops. Shell example: `factorial() { [ $1 -le 1 ] && echo 1 || echo $(( $1 * $(factorial $(( $1 - 1 ))) )); }` |
+| Autotools    | Partially       | Autotools uses M4 (not Turing-complete) and shell scripts (Turing-complete). M4 itself lacks unbounded loops. Shell example: `factorial() {[ $1 -le 1 ] && echo 1 \|\| echo $(( $1 * $(factorial $(( $1 - 1 ))) )); }` |
 | CMake        | True            | CMake supports recursion and unbounded loops. Factorial example: `function(factorial n result) if(${n} LESS 2) set(${result} 1 PARENT_SCOPE) else(math(EXPR n1 "${n} - 1") factorial(${n1} sub_result) math(EXPR res "${n} * ${sub_result}") set(${result} ${res} PARENT_SCOPE)) endif() endfunction()` |
 | Meson        | False           | Meson intentionally limits looping and recursion for predictability. It lacks unbounded loops and general recursion. This factorial won't work: `def factorial(n): return 1 if n <= 1 else n * factorial(n - 1)` |
 | Bazel        | False           | Bazel's Starlark is intentionally not Turing-complete. It disallows recursion and while loops. This factorial function is not possible: `def factorial(n): return 1 if n <= 1 else n * factorial(n - 1)` |
